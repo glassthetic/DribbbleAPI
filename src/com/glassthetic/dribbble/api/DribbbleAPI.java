@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
 public class DribbbleAPI {
 	
 	private static final String BASE_URL = "http://api.dribbble.com/";
@@ -35,34 +36,34 @@ public class DribbbleAPI {
 	}
 
 	
-	public void getDebutShots(final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getDebutShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getDebutShots(FIRST_PAGE, listener, errorListener);
 	}
 	
-	public void getDebutShots(int page, final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getDebutShots(int page, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getShots(DEBUT_SHOTS_URL, page, listener, errorListener);
 	}
 	
 	
-	public void getEveryoneShots(final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getEveryoneShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getEveryoneShots(FIRST_PAGE, listener, errorListener);
 	}
 	
-	public void getEveryoneShots(int page, final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getEveryoneShots(int page, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getShots(EVERYONE_SHOTS_URL, page, listener, errorListener);
 	}
 	
 	
-	public void getPopularShots(final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getPopularShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getPopularShots(FIRST_PAGE, listener, errorListener);
 	}
 	
-	public void getPopularShots(int page, final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	public void getPopularShots(int page, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		getShots(POPULAR_SHOTS_URL, page, listener, errorListener);
 	}
 	
 	
-	private void getShots(String url, int page, final com.glassthetic.dribbble.api.Response.Listener<List<Shot>> listener, final com.glassthetic.dribbble.api.Response.ErrorListener errorListener) {
+	private void getShots(String url, int page, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
 		JSONObject jsonRequest = new JSONObject();
 		
 		try {
