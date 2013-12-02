@@ -1,5 +1,7 @@
 package com.glassthetic.dribbble.api;
 
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -45,6 +47,15 @@ public class Shot implements Parcelable {
     public String createdAt;
     
     public Player player;
+    
+    
+    public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
+    	// TODO
+    }
+    
+    public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	// TODO
+    }
 
     
     public static final Parcelable.Creator<Shot> CREATOR = new Parcelable.Creator<Shot>() {
