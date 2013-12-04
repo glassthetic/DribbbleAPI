@@ -1,6 +1,7 @@
 package com.glassthetic.dribbble.api;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +9,16 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class Shot implements Parcelable {
+	
+	
+	private static final String SHOTS_BASE_URL = "shots/";
+	private static final String SHOTS_DEBUTS_URL = SHOTS_BASE_URL + "debuts";
+	private static final String SHOTS_EVERYONE_URL = SHOTS_BASE_URL + "everyone";
+	private static final String SHOTS_POPULAR_URL = SHOTS_BASE_URL + "popular";
+	private static final String SHOT_COMMENTS_URL = SHOTS_BASE_URL + "%d/comments";
+	private static final String SHOT_REBOUNDS_URL = SHOTS_BASE_URL + "%d/rebounds";
+	private static final String SHOTS_NAME = "shots";
+	private static final String SHOT_COMMENTS_NAME = "comments";
 	
 	public int id;
     
@@ -49,12 +60,31 @@ public class Shot implements Parcelable {
     public Player player;
     
     
+    private static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	Request.<Shot>getList(url, SHOTS_NAME, listener, errorListener);
+    }
+    
+    public static void getDebuts(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_DEBUTS_URL, listener, errorListener);
+    }
+    
+    public static void getEveryone(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_EVERYONE_URL, listener, errorListener);
+    }
+    
+    public static void getPopular(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_POPULAR_URL, listener, errorListener);
+    }
+    
+    
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
-    	// TODO
+    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
+    	Request.getList(url, SHOT_COMMENTS_NAME, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	// TODO
+    	String url = String.format(Locale.US, SHOT_REBOUNDS_URL, this.id);
+    	getShots(url, listener, errorListener);
     }
 
     
