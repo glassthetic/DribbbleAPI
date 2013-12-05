@@ -14,33 +14,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-class Request<T> {
+class Request {
 	
 	public static RequestQueue queue;
 	private static final String BASE_URL = "http://api.dribbble.com/";
-	
-	public static <E> void getList(String url, final String name, final Listener<List<E>> listener, final ErrorListener errorListener) {    			
-    	new Request<List<E>>(url, new Listener<JSONObject>() {
-
-			@Override
-			public void onResponse(JSONObject response) {
-				Gson gson = new Gson();
-				String jsonString = null;
-				
-				try {
-					jsonString = response.getString(name);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				Type listType = new TypeToken<List<E>>() {}.getType();
-				List<E> list = gson.fromJson(jsonString, listType);
-				listener.onResponse(list);
-			}
-    		
-		}, errorListener);
-    }
 	
 	public Request(String url, final Listener<JSONObject> listener, final ErrorListener errorListener) {
 		String absoluteUrl = BASE_URL + url; 
@@ -69,4 +46,32 @@ class Request<T> {
 		
 		queue.add(request);
 	}	
+}
+
+
+class ListRequest {
+
+	public ListRequest(String url, final String name, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+		new Request(url, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				Gson gson = new Gson();
+				String jsonString = null;
+				
+				try {
+					jsonString = response.getString(name);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Type listType = new TypeToken<List<Shot>>() {}.getType();
+				List<Shot> list = gson.fromJson(jsonString, listType);
+				listener.onResponse(list);
+			}
+			
+		}, errorListener);
+	}
+	
 }

@@ -61,7 +61,7 @@ public class Shot implements Parcelable {
     
     
     private static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	Request.<Shot>getList(url, SHOTS_NAME, listener, errorListener);
+    	new ListRequest(url, SHOTS_NAME, listener, errorListener);
     }
     
     public static void getDebuts(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
@@ -78,8 +78,8 @@ public class Shot implements Parcelable {
     
     
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
-    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
-    	Request.getList(url, SHOT_COMMENTS_NAME, listener, errorListener);
+//    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
+//    	new ListRequest<Comment>(url, SHOT_COMMENTS_NAME, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
