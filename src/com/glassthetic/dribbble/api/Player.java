@@ -1,11 +1,28 @@
 package com.glassthetic.dribbble.api;
 
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Locale;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 public class Player implements Parcelable {
+
+	static final String NAME = "players";
+	
+	private static final String PLAYERS_BASE_URL = "players/";
+	private static final String PLAYER_URL = PLAYERS_BASE_URL + "%d/";
+	private static final String PLAYER_DRAFTEES_URL = PLAYER_URL + "draftees/";
+	private static final String PLAYER_FOLLOWERS_URL = PLAYER_URL + "followers/";
+	private static final String PLAYER_FOLLOWING_URL = PLAYER_URL + "following/";
+	private static final String PLAYER_SHOTS_URL = PLAYER_URL + "shots/";
+	private static final String PLAYER_LIKES_URL = PLAYER_SHOTS_URL + "likes/";
+	private static final String PLAYER_FOLLOWING_SHOTS_URL = PLAYER_SHOTS_URL + "following/";
+
 	
 	public int id;
     
@@ -58,6 +75,50 @@ public class Player implements Parcelable {
     
     @SerializedName("created_at")
     public String createdAt;
+    
+    
+    private static void getPlayers(String url, final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    	Type listType = new TypeToken<List<Player>>() {}.getType();
+    	new ListRequest<Player>(url, NAME, listType, listener, errorListener);
+    }
+    
+    
+    public static void get(int id, final Listener<Player> listener, final ErrorListener errorListener) {
+    	Type type = new TypeToken<Player>() {}.getType();
+    	String url = String.format(Locale.US, PLAYER_URL, id);
+    	new ResourceRequest<Player>(url, type, listener, errorListener);
+    }
+    
+    
+    public void getDraftees(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_DRAFTEES_URL, this.id);
+    	getPlayers(url, listener, errorListener);
+    }
+    
+    public void getFollowers(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_FOLLOWERS_URL, this.id);
+    	getPlayers(url, listener, errorListener);
+    }
+    
+    public void getFollowing(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_FOLLOWING_URL, this.id);
+    	getPlayers(url, listener, errorListener);
+    }
+    
+    public void getLikes(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_LIKES_URL, this.id);
+    	Shot.getShots(url, listener, errorListener);
+    }
+    
+    public void getShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_SHOTS_URL, this.id);
+    	Shot.getShots(url, listener, errorListener);
+    }
+    
+    public void getFollowingShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, PLAYER_FOLLOWING_SHOTS_URL, this.id);
+    	Shot.getShots(url, listener, errorListener);
+    }
 
     
     public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {

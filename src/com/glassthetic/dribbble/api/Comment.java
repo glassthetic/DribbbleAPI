@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Comment implements Parcelable {
 	
+	static final String NAME = "comments";
+	
+	
 	public int id;
     
 	public String body;

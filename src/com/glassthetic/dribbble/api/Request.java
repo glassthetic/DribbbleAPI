@@ -50,7 +50,7 @@ class Request {
 
 class ListRequest<T> {
 
-	public ListRequest(String url, final String name, final Type listType, final Listener<List<T>> listener, final ErrorListener errorListener) {
+	public ListRequest(String url, final String name, final Type type, final Listener<List<T>> listener, final ErrorListener errorListener) {
 		new Request(url, new Listener<JSONObject>() {
 
 			@Override
@@ -65,8 +65,27 @@ class ListRequest<T> {
 					e.printStackTrace();
 				}
 				
-				List<T> list = gson.fromJson(jsonString, listType);
+				List<T> list = gson.fromJson(jsonString, type);
 				listener.onResponse(list);
+			}
+			
+		}, errorListener);
+	}
+	
+}
+
+
+class ResourceRequest<T> {
+
+	public ResourceRequest(String url, final Type type, final Listener<T> listener, final ErrorListener errorListener) {
+		new Request(url, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				Gson gson = new Gson();
+				String jsonString = response.toString();
+				T resource = gson.fromJson(jsonString, type);
+				listener.onResponse(resource);
 			}
 			
 		}, errorListener);
