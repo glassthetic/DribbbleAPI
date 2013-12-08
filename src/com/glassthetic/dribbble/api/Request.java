@@ -12,7 +12,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 class Request {
 	
@@ -49,9 +48,9 @@ class Request {
 }
 
 
-class ListRequest {
+class ListRequest<T> {
 
-	public ListRequest(String url, final String name, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+	public ListRequest(String url, final String name, final Type listType, final Listener<List<T>> listener, final ErrorListener errorListener) {
 		new Request(url, new Listener<JSONObject>() {
 
 			@Override
@@ -66,8 +65,7 @@ class ListRequest {
 					e.printStackTrace();
 				}
 				
-				Type listType = new TypeToken<List<Shot>>() {}.getType();
-				List<Shot> list = gson.fromJson(jsonString, listType);
+				List<T> list = gson.fromJson(jsonString, listType);
 				listener.onResponse(list);
 			}
 			

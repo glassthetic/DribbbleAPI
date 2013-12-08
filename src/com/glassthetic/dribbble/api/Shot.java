@@ -1,5 +1,6 @@
 package com.glassthetic.dribbble.api;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
 
@@ -7,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 public class Shot implements Parcelable {
 	
@@ -61,7 +63,8 @@ public class Shot implements Parcelable {
     
     
     private static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	new ListRequest(url, SHOTS_NAME, listener, errorListener);
+    	Type listType = new TypeToken<List<Shot>>() {}.getType();
+    	new ListRequest<Shot>(url, SHOTS_NAME, listType, listener, errorListener);
     }
     
     public static void getDebuts(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
@@ -78,8 +81,9 @@ public class Shot implements Parcelable {
     
     
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
-//    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
-//    	new ListRequest<Comment>(url, SHOT_COMMENTS_NAME, listener, errorListener);
+    	Type listType = new TypeToken<List<Comment>>() {}.getType();
+    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
+    	new ListRequest<Comment>(url, SHOT_COMMENTS_NAME, listType, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
