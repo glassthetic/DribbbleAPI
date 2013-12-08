@@ -67,13 +67,13 @@ public class Shot implements Parcelable {
     
     
     static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	new ListRequest<Shot>(url, NAME, listType, listener, errorListener);
+    	new Request<Shot>(url, NAME, listType, listener, errorListener);
     }
     
     
     public static void get(int id, final Listener<Shot> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_URL, id);
-    	new ResourceRequest<Shot>(url, type, listener, errorListener);
+    	new Request<Shot>(url, type, listener, errorListener);
     }
     
     public static void getDebuts(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
@@ -91,7 +91,7 @@ public class Shot implements Parcelable {
     
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
-    	new ListRequest<Comment>(url, Comment.NAME, Comment.listType, listener, errorListener);
+    	new Request<Comment>(url, Comment.NAME, Comment.listType, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {

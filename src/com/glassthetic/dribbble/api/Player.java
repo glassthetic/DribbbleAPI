@@ -81,13 +81,13 @@ public class Player implements Parcelable {
     
     
     private static void getPlayers(String url, final Listener<List<Player>> listener, final ErrorListener errorListener) {
-    	new ListRequest<Player>(url, NAME, listType, listener, errorListener);
+    	new Request<Player>(url, NAME, listType, listener, errorListener);
     }
     
     
     public static void get(int id, final Listener<Player> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_URL, id);
-    	new ResourceRequest<Player>(url, type, listener, errorListener);
+    	new Request<Player>(url, type, listener, errorListener);
     }
     
     
