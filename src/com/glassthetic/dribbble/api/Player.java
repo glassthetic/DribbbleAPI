@@ -14,6 +14,9 @@ public class Player implements Parcelable {
 
 	static final String NAME = "players";
 	
+	static final Type listType = new TypeToken<List<Player>>() {}.getType();
+	static final Type type = new TypeToken<Player>() {}.getType();
+	
 	private static final String PLAYERS_BASE_URL = "players/";
 	private static final String PLAYER_URL = PLAYERS_BASE_URL + "%d/";
 	private static final String PLAYER_DRAFTEES_URL = PLAYER_URL + "draftees/";
@@ -78,13 +81,11 @@ public class Player implements Parcelable {
     
     
     private static void getPlayers(String url, final Listener<List<Player>> listener, final ErrorListener errorListener) {
-    	Type listType = new TypeToken<List<Player>>() {}.getType();
     	new ListRequest<Player>(url, NAME, listType, listener, errorListener);
     }
     
     
     public static void get(int id, final Listener<Player> listener, final ErrorListener errorListener) {
-    	Type type = new TypeToken<Player>() {}.getType();
     	String url = String.format(Locale.US, PLAYER_URL, id);
     	new ResourceRequest<Player>(url, type, listener, errorListener);
     }

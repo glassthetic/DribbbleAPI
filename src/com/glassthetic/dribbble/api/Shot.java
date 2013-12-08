@@ -14,6 +14,9 @@ public class Shot implements Parcelable {
 
 	static final String NAME = "shots";
 	
+	static final Type listType = new TypeToken<List<Shot>>() {}.getType();
+	static final Type type = new TypeToken<Shot>() {}.getType();
+	
 	private static final String SHOTS_BASE_URL = "shots/";
 	private static final String SHOTS_DEBUTS_URL = SHOTS_BASE_URL + "debuts/";
 	private static final String SHOTS_EVERYONE_URL = SHOTS_BASE_URL + "everyone/";
@@ -64,14 +67,12 @@ public class Shot implements Parcelable {
     
     
     static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	Type type = new TypeToken<List<Shot>>() {}.getType();
-    	new ListRequest<Shot>(url, NAME, type, listener, errorListener);
+    	new ListRequest<Shot>(url, NAME, listType, listener, errorListener);
     }
     
     
     public static void get(int id, final Listener<Shot> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_URL, id);
-    	Type type = new TypeToken<Shot>() {}.getType();
     	new ResourceRequest<Shot>(url, type, listener, errorListener);
     }
     
@@ -90,8 +91,7 @@ public class Shot implements Parcelable {
     
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
-    	Type type = new TypeToken<List<Comment>>() {}.getType();
-    	new ListRequest<Comment>(url, Comment.NAME, type, listener, errorListener);
+    	new ListRequest<Comment>(url, Comment.NAME, Comment.listType, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
