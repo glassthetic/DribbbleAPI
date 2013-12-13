@@ -61,11 +61,12 @@ class Request<T> {
 			String absoluteUrl = BASE_URL + url; 
 			JSONObject jsonRequest = new JSONObject();
 			
-	//		try {
-	//			jsonRequest.put("page", page);
-	//		} catch (JSONException jsonException) {
-	//			jsonException.printStackTrace();
-	//		}
+//			TODO Pagination
+//			try {
+//				jsonRequest.put("page", page);
+//			} catch (JSONException jsonException) {
+//				jsonException.printStackTrace();
+//			}
 			
 			JsonObjectRequest request = new JsonObjectRequest(Method.GET, absoluteUrl, jsonRequest, new Response.Listener<JSONObject>() {
 	
