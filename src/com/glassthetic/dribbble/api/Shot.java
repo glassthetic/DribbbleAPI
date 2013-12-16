@@ -4,9 +4,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
@@ -97,6 +101,26 @@ public class Shot implements Parcelable {
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_REBOUNDS_URL, this.id);
     	getShots(url, listener, errorListener);
+    }
+    
+    
+    public void getImage(final Listener<Bitmap> listener, final ErrorListener errorListener) {
+    	ImageRequest request = new ImageRequest(this.imageUrl, new Response.Listener<Bitmap>() {
+
+			@Override
+			public void onResponse(Bitmap bitmap) {
+				listener.onResponse(bitmap);
+			}
+		}, 0, 0, null, new Response.ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				errorListener.onErrorResponse(error);
+			}
+		});
+		
+		Request.queue.add(request);
     }
 
     
