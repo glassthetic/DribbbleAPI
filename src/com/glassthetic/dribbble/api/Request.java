@@ -80,7 +80,6 @@ class Request<T> {
 	
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					
 					errorListener.onErrorResponse(error);
 				}
 			});

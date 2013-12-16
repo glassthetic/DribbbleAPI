@@ -54,13 +54,13 @@ public class Paginator<T> implements Parcelable {
 		this.mErrorListener = errorListener;
 	}
 	
-	public void nextPage(PaginatedListener<T> listener, ErrorListener errorListener) {
+	private void changePage(int offset, PaginatedListener<T> listener, ErrorListener errorListener) {
 		JSONObject params = new JSONObject();
 		
 		try {
 			params.put(CURRENT_PAGE_NUMBER_KEY, mCurrentPageNumber);
 			params.put(NUMBER_OF_PAGES_KEY, mNumberOfPages);
-			params.put(NUMBER_OF_ITEMS_PER_PAGE_KEY, mNumberOfItemsPerPage);
+			params.put(NUMBER_OF_ITEMS_PER_PAGE_KEY, mNumberOfItemsPerPage + offset);
 			params.put(TOTAL_NUMBER_OF_ITEMS_KEY, mTotalNumberOfItems);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -68,6 +68,14 @@ public class Paginator<T> implements Parcelable {
 		}
 		
 		new Request<T>(mUrl, params, mName, mType, mListener, mErrorListener);
+	}
+	
+	public void nextPage(PaginatedListener<T> listener, ErrorListener errorListener) {
+		changePage(1, listener, errorListener);
+	}
+	
+	public void previousPage(PaginatedListener<T> listener, ErrorListener errorListener) {
+		changePage(-1, listener, errorListener);
 	}
 	
 	
