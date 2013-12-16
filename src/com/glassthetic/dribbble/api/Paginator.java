@@ -42,16 +42,16 @@ public class Paginator<T> implements Parcelable {
 			e.printStackTrace();
 		}
 		
-		this.mCurrentPageNumber = currentPageNumber;
-		this.mNumberOfPages = numberOfPages;
-		this.mNumberOfItemsPerPage = numberOfItemsPerPage;
-		this.mTotalNumberOfItems = totalNumberOfItems;
+		mCurrentPageNumber = currentPageNumber;
+		mNumberOfPages = numberOfPages;
+		mNumberOfItemsPerPage = numberOfItemsPerPage;
+		mTotalNumberOfItems = totalNumberOfItems;
 		
-		this.mUrl = url;
-		this.mName = name;
-		this.mType = type;
-		this.mListener = listener;
-		this.mErrorListener = errorListener;
+		mUrl = url;
+		mName = name;
+		mType = type;
+		mListener = listener;
+		mErrorListener = errorListener;
 	}
 	
 	private void changePage(int offset, PaginatedListener<T> listener, ErrorListener errorListener) {
