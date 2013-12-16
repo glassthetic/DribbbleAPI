@@ -32,11 +32,11 @@ class Request<T> {
 		}, errorListener);
 	}
 	
-	public Request(final String url, final String name, final Type type, final PaginatedListener<List<T>> listener, final ErrorListener errorListener) {
+	public Request(final String url, final String name, final Type type, final PaginatedListener<T> listener, final ErrorListener errorListener) {
 		this(url, new JSONObject(), name, type, listener, errorListener);
 	}
 	
-	public Request(final String url, final JSONObject params, final String name, final Type type, final PaginatedListener<List<T>> listener, final ErrorListener errorListener) {
+	public Request(final String url, final JSONObject params, final String name, final Type type, final PaginatedListener<T> listener, final ErrorListener errorListener) {
 		new JsonRequest(url, params, new Listener<JSONObject>() {
 
 			@Override

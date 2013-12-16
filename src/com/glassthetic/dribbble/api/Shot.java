@@ -70,7 +70,7 @@ public class Shot implements Parcelable {
     public Player player;
     
     
-    static void getShots(String url, final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
+    static void getShots(String url, final PaginatedListener<Shot> listener, final ErrorListener errorListener) {
     	new Request<Shot>(url, NAME, listType, listener, errorListener);
     }
     
@@ -80,25 +80,25 @@ public class Shot implements Parcelable {
     	new Request<Shot>(url, type, listener, errorListener);
     }
     
-    public static void getDebuts(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
+    public static void getDebuts(final PaginatedListener<Shot> listener, final ErrorListener errorListener) {
     	getShots(SHOTS_DEBUTS_URL, listener, errorListener);
     }
     
-    public static void getEveryone(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
+    public static void getEveryone(final PaginatedListener<Shot> listener, final ErrorListener errorListener) {
     	getShots(SHOTS_EVERYONE_URL, listener, errorListener);
     }
     
-    public static void getPopular(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
+    public static void getPopular(final PaginatedListener<Shot> listener, final ErrorListener errorListener) {
     	getShots(SHOTS_POPULAR_URL, listener, errorListener);
     }
     
     
-    public void getComments(final PaginatedListener<List<Comment>> listener, final ErrorListener errorListener) {
+    public void getComments(final PaginatedListener<Comment> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
     	new Request<Comment>(url, Comment.NAME, Comment.listType, listener, errorListener);
     }
     
-    public void getRebounds(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
+    public void getRebounds(final PaginatedListener<Shot> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, SHOT_REBOUNDS_URL, this.id);
     	getShots(url, listener, errorListener);
     }
