@@ -52,7 +52,7 @@ class Request<T> {
 				}
 				
 				List<T> list = gson.fromJson(listJsonString, type);				
-				Paginator paginator = new Paginator(response, url, name, type, listener, errorListener);
+				Paginator<T> paginator = new Paginator<T>(response, url, name, type, listener, errorListener);
 				
 				listener.onPaginatedResponse(list, paginator);
 			}

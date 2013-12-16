@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Paginator implements Parcelable {
+public class Paginator<T> implements Parcelable {
 
 	private static final String CURRENT_PAGE_NUMBER_KEY = "page";
 	private static final String NUMBER_OF_PAGES_KEY = "pages";
@@ -23,10 +23,10 @@ public class Paginator implements Parcelable {
 	private String mUrl;
 	private String mName;
 	private Type mType;
-	private PaginatedListener mListener;
+	private PaginatedListener<T> mListener;
 	private ErrorListener mErrorListener;
 	
-	public Paginator(JSONObject response, String url, String name, Type type, PaginatedListener listener, ErrorListener errorListener) {
+	public Paginator(JSONObject response, String url, String name, Type type, PaginatedListener<T> listener, ErrorListener errorListener) {
 		int currentPageNumber = 0;
 		int numberOfPages = 0;
 		int numberOfItemsPerPage = 0;
@@ -54,7 +54,7 @@ public class Paginator implements Parcelable {
 		this.mErrorListener = errorListener;
 	}
 	
-	public void nextPage(PaginatedListener listener, ErrorListener errorListener) {
+	public void nextPage(PaginatedListener<T> listener, ErrorListener errorListener) {
 		JSONObject params = new JSONObject();
 		
 		try {
@@ -67,7 +67,7 @@ public class Paginator implements Parcelable {
 			e.printStackTrace();
 		}
 		
-		new Request(mUrl, params, mName, mType, mListener, mErrorListener);
+		new Request<T>(mUrl, params, mName, mType, mListener, mErrorListener);
 	}
 	
 	
