@@ -80,7 +80,7 @@ public class Player implements Parcelable {
     public String createdAt;
     
     
-    private static void getPlayers(String url, final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    private static void getPlayers(String url, final PaginatedListener<List<Player>> listener, final ErrorListener errorListener) {
     	new Request<Player>(url, NAME, listType, listener, errorListener);
     }
     
@@ -91,32 +91,32 @@ public class Player implements Parcelable {
     }
     
     
-    public void getDraftees(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    public void getDraftees(final PaginatedListener<List<Player>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_DRAFTEES_URL, this.id);
     	getPlayers(url, listener, errorListener);
     }
     
-    public void getFollowers(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    public void getFollowers(final PaginatedListener<List<Player>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_FOLLOWERS_URL, this.id);
     	getPlayers(url, listener, errorListener);
     }
     
-    public void getFollowing(final Listener<List<Player>> listener, final ErrorListener errorListener) {
+    public void getFollowing(final PaginatedListener<List<Player>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_FOLLOWING_URL, this.id);
     	getPlayers(url, listener, errorListener);
     }
     
-    public void getLikes(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    public void getLikes(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_LIKES_URL, this.id);
     	Shot.getShots(url, listener, errorListener);
     }
     
-    public void getShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    public void getShots(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_SHOTS_URL, this.id);
     	Shot.getShots(url, listener, errorListener);
     }
     
-    public void getFollowingShots(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    public void getFollowingShots(final PaginatedListener<List<Shot>> listener, final ErrorListener errorListener) {
     	String url = String.format(Locale.US, PLAYER_FOLLOWING_SHOTS_URL, this.id);
     	Shot.getShots(url, listener, errorListener);
     }

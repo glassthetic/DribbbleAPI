@@ -18,7 +18,7 @@ class Request<T> {
 	public static RequestQueue queue;
 	private static final String BASE_URL = "http://api.dribbble.com/";
 	
-	public Request(String url, final Type type, final Listener<T> listener, final ErrorListener errorListener) {
+	public Request(final String url, final Type type, final Listener<T> listener, final ErrorListener errorListener) {
 		new JsonRequest(url, new Listener<JSONObject>() {
 
 			@Override
@@ -32,23 +32,29 @@ class Request<T> {
 		}, errorListener);
 	}
 	
-	public Request(String url, final String name, final Type type, final Listener<List<T>> listener, final ErrorListener errorListener) {
-		new JsonRequest(url, new Listener<JSONObject>() {
+	public Request(final String url, final String name, final Type type, final PaginatedListener<List<T>> listener, final ErrorListener errorListener) {
+		this(url, new JSONObject(), name, type, listener, errorListener);
+	}
+	
+	public Request(final String url, final JSONObject params, final String name, final Type type, final PaginatedListener<List<T>> listener, final ErrorListener errorListener) {
+		new JsonRequest(url, params, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject response) {
 				Gson gson = new Gson();
-				String jsonString = null;
+				String listJsonString = null;
 				
 				try {
-					jsonString = response.getString(name);
+					listJsonString = response.getString(name);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				List<T> list = gson.fromJson(jsonString, type);
-				listener.onResponse(list);
+				List<T> list = gson.fromJson(listJsonString, type);				
+				Paginator paginator = new Paginator(response, url, name, type, listener, errorListener);
+				
+				listener.onPaginatedResponse(list, paginator);
 			}
 			
 		}, errorListener);
@@ -58,17 +64,13 @@ class Request<T> {
 	private class JsonRequest {
 		
 		public JsonRequest(String url, final Listener<JSONObject> listener, final ErrorListener errorListener) {
+			this(url, new JSONObject(), listener, errorListener);
+		}
+		
+		public JsonRequest(String url, JSONObject params, final Listener<JSONObject> listener, final ErrorListener errorListener) {
 			String absoluteUrl = BASE_URL + url; 
-			JSONObject jsonRequest = new JSONObject();
 			
-//			TODO Pagination
-//			try {
-//				jsonRequest.put("page", page);
-//			} catch (JSONException jsonException) {
-//				jsonException.printStackTrace();
-//			}
-			
-			JsonObjectRequest request = new JsonObjectRequest(Method.GET, absoluteUrl, jsonRequest, new Response.Listener<JSONObject>() {
+			JsonObjectRequest request = new JsonObjectRequest(Method.GET, absoluteUrl, params, new Response.Listener<JSONObject>() {
 	
 				@Override
 				public void onResponse(JSONObject response) {
