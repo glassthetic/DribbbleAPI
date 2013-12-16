@@ -1,13 +1,34 @@
 package com.glassthetic.dribbble.api;
 
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 public class Shot implements Parcelable {
+
+	static final String NAME = "shots";
+	
+	static final Type listType = new TypeToken<List<Shot>>() {}.getType();
+	static final Type type = new TypeToken<Shot>() {}.getType();
+	
+	private static final String SHOTS_BASE_URL = "shots/";
+	private static final String SHOTS_DEBUTS_URL = SHOTS_BASE_URL + "debuts/";
+	private static final String SHOTS_EVERYONE_URL = SHOTS_BASE_URL + "everyone/";
+	private static final String SHOTS_POPULAR_URL = SHOTS_BASE_URL + "popular/";
+	private static final String SHOT_URL = SHOTS_BASE_URL + "%d/";
+	private static final String SHOT_COMMENTS_URL = SHOT_URL + "comments/";
+	private static final String SHOT_REBOUNDS_URL = SHOT_URL + "rebounds/";
+	
 	
 	public int id;
     
@@ -49,12 +70,57 @@ public class Shot implements Parcelable {
     public Player player;
     
     
+    static void getShots(String url, final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	new Request<Shot>(url, NAME, listType, listener, errorListener);
+    }
+    
+    
+    public static void get(int id, final Listener<Shot> listener, final ErrorListener errorListener) {
+    	String url = String.format(Locale.US, SHOT_URL, id);
+    	new Request<Shot>(url, type, listener, errorListener);
+    }
+    
+    public static void getDebuts(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_DEBUTS_URL, listener, errorListener);
+    }
+    
+    public static void getEveryone(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_EVERYONE_URL, listener, errorListener);
+    }
+    
+    public static void getPopular(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
+    	getShots(SHOTS_POPULAR_URL, listener, errorListener);
+    }
+    
+    
     public void getComments(final Listener<List<Comment>> listener, final ErrorListener errorListener) {
-    	// TODO
+    	String url = String.format(Locale.US, SHOT_COMMENTS_URL, this.id);
+    	new Request<Comment>(url, Comment.NAME, Comment.listType, listener, errorListener);
     }
     
     public void getRebounds(final Listener<List<Shot>> listener, final ErrorListener errorListener) {
-    	// TODO
+    	String url = String.format(Locale.US, SHOT_REBOUNDS_URL, this.id);
+    	getShots(url, listener, errorListener);
+    }
+    
+    
+    public void getImage(final Listener<Bitmap> listener, final ErrorListener errorListener) {
+    	ImageRequest request = new ImageRequest(this.imageUrl, new Response.Listener<Bitmap>() {
+
+			@Override
+			public void onResponse(Bitmap bitmap) {
+				listener.onResponse(bitmap);
+			}
+		}, 0, 0, null, new Response.ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// TODO Auto-generated method stub
+				errorListener.onErrorResponse(error);
+			}
+		});
+		
+		Request.queue.add(request);
     }
 
     
